@@ -38,7 +38,6 @@ const swaggerOptions = {
     ],
   },
   // Rutas donde Swagger buscará los comentarios JSDoc
-  // Asegúrate de que las rutas coincidan con la estructura de tu proyecto
   apis: [
     path.join(__dirname, "routes", "*.js").split(path.sep).join("/"),
     path.join(__dirname, "app.js").split(path.sep).join("/"),
@@ -53,7 +52,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 //Ruta de prueba para verificar que la API está funcionando correctamente
 app.use("/api/v1/health", healthRoutes);
 
-//Especificamos la ruta para los endpoints de usuarios
+//Especificamos la ruta para los endpoints de usuarios y servicios
 app.use("/api/v1/usuarios", userRoutes);
 app.use("/api/v2/usuarios", userV2Routes);
 app.use("/api/v2/roles", rolesRoutes);

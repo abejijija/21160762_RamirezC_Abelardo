@@ -9,7 +9,7 @@ const form = ref({ ...vacio })
 
 async function cargar() {
   try {
-    const res = await api.get('/roles')
+    const res = await api.get('/api/v2/roles')
     roles.value = res.data.data ?? res.data
   } catch (e) {
     error.value = 'No se pudieron cargar los roles'
@@ -20,8 +20,8 @@ async function guardar() {
   error.value = ''
   try {
     const datos = { name: form.value.name, description: form.value.description }
-    if (form.value.id) await api.put(`/roles/${form.value.id}`, datos)
-    else await api.post('/roles', datos)
+    if (form.value.id) await api.put(`/api/v2/roles/${form.value.id}`, datos)
+    else await api.post('/api/v2/roles', datos)
     form.value = { ...vacio }
     cargar()
   } catch (e) {
@@ -29,12 +29,14 @@ async function guardar() {
   }
 }
 
-function editar(r) { form.value = { ...r } }
+function editar(r) {
+  form.value = { id: r.id, name: r.name, description: r.description ?? '' }
+}
 
 async function eliminar(id) {
   if (!confirm('¿Eliminar este rol?')) return
   try {
-    await api.delete(`/roles/${id}`)
+    await api.delete(`/api/v2/roles/${id}`)
     cargar()
   } catch (e) {
     error.value = e.response?.data?.message || 'Error al eliminar'

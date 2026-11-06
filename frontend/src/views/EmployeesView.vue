@@ -4,7 +4,7 @@ import api from '../api'
 
 const employees = ref([])
 const error = ref('')
-const vacio = { id: null, first_name: '', last_name: '', email: '', phone: '', position: '' }
+const vacio = { id: null, nombre: '', apellido: '', correo: '', telefono: '', puesto: '' }
 const form = ref({ ...vacio })
 
 async function cargar() {
@@ -29,7 +29,9 @@ async function guardar() {
   }
 }
 
-function editar(emp) { form.value = { ...emp } }
+function editar(emp) { 
+  form.value = { ...emp } 
+}
 
 async function eliminar(id) {
   if (!confirm('¿Eliminar este empleado?')) return
@@ -49,11 +51,11 @@ onMounted(cargar)
   <p v-if="error" class="error">{{ error }}</p>
 
   <form @submit.prevent="guardar">
-    <input v-model="form.first_name" placeholder="Nombre" required />
-    <input v-model="form.last_name" placeholder="Apellido" required />
-    <input v-model="form.email" type="email" placeholder="Correo" />
-    <input v-model="form.phone" placeholder="Teléfono" />
-    <input v-model="form.position" placeholder="Puesto" />
+    <input v-model="form.nombre" placeholder="Nombre" required />
+    <input v-model="form.apellido" placeholder="Apellido" required />
+    <input v-model="form.correo" type="email" placeholder="Correo" />
+    <input v-model="form.telefono" placeholder="Teléfono" />
+    <input v-model="form.puesto" placeholder="Puesto" />
     <div class="acciones">
       <button type="submit">{{ form.id ? 'Actualizar' : 'Crear' }}</button>
       <button v-if="form.id" type="button" class="gris" @click="form = { ...vacio }">Cancelar</button>
@@ -61,14 +63,23 @@ onMounted(cargar)
   </form>
 
   <table>
-    <thead><tr><th>ID</th><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Puesto</th><th>Acciones</th></tr></thead>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>Puesto</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
     <tbody>
       <tr v-for="e in employees" :key="e.id">
         <td>{{ e.id }}</td>
-        <td>{{ e.first_name }} {{ e.last_name }}</td>
-        <td>{{ e.email }}</td>
-        <td>{{ e.phone }}</td>
-        <td>{{ e.position }}</td>
+        <td>{{ e.nombre }} {{ e.apellido }}</td>
+        <td>{{ e.correo }}</td>
+        <td>{{ e.telefono }}</td>
+        <td>{{ e.puesto }}</td>
         <td class="acciones">
           <button @click="editar(e)">Editar</button>
           <button class="rojo" @click="eliminar(e.id)">Eliminar</button>
